@@ -1,10 +1,11 @@
-package com.model;
+package com.model.domain;
 
 import java.util.Date;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@MappedSuperclass
 public class Pessoa {
 
     @Id
@@ -23,7 +25,6 @@ public class Pessoa {
     private String cpf;
     private String contato;
     private String email;
-    // private Curso curso;
     private Date dataNascimento;
 
 }
