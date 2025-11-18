@@ -34,4 +34,57 @@ public class Evento {
     private Integer vagas;
     private String bannerUrl;
 
+    public boolean isAbertoATodos() {
+        return cursos == null || cursos.isEmpty();
+    }
+
+    public boolean podeSeInscrever(Aluno aluno) {
+        // Se o evento está aberto a todos, qualquer aluno pode se inscrever
+        if (isAbertoATodos()) {
+            return true;
+        }
+        
+        // Se o aluno não tem cursos cadastrados, não pode se inscrever em evento restrito
+        if (aluno.getCursos() == null || aluno.getCursos().isEmpty()) {
+            return false;
+        }
+        
+        // Verifica se o aluno tem pelo menos um curso permitido
+        return aluno.getCursos().stream()
+            .anyMatch(cursoAluno -> cursos.stream()
+                .anyMatch(cursoEvento -> cursoEvento.getId().equals(cursoAluno.getId())));
+    }
+
+    public void adicionarCurso(Curso curso) {
+        if (curso != null && !cursos.contains(curso)) {
+            cursos.add(curso);
+        }
+    }
+
+    public void removerCurso(Curso curso) {
+        if (curso != null) {
+            cursos.remove(curso);
+        }
+    }
+
+    public void tornarAbertoATodos() {
+        cursos.clear();
+    }
+
+    public boolean isRestrito() {
+        return !isAbertoATodos();
+    }
+
+    public int getVagasDisponiveis() {
+        if (vagas == null) {
+            return 0;
+        }
+        
+        long inscritos = inscricoes != null ? inscricoes.size() : 0;
+        return Math.max(0, vagas - (int) inscritos);
+    }
+
+    public boolean temVagasDisponiveis() {
+        return getVagasDisponiveis() > 0;
+    }
 }
