@@ -1,5 +1,6 @@
 package com.model.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,7 @@ import lombok.Setter;
 public class Certificado {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -35,8 +36,14 @@ public class Certificado {
     @ManyToOne
     @JoinColumn(name = "palestrante_id", nullable = false)
     private Palestrante palestrante;
+    
+    @Column(name = "hash_certificado")
     private String hashCertificado;
+    
+    @Column(name = "nome_instituicao")
     private String nomeInstituicao;
+    
+    @Column(name = "identidade_instituicao")
     private String identidadeInstituicao;
 
     @Override

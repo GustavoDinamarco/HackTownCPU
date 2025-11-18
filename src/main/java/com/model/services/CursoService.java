@@ -22,6 +22,9 @@ public class CursoService {
     }
 
     public Curso buscarPorId(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         return cursoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
     }
@@ -40,6 +43,10 @@ public class CursoService {
     }
 
     public void remover(Integer id) {
-        cursoRepository.delete(buscarPorId(id));
+        Curso curso = buscarPorId(id);
+        if (curso == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado");
+        }
+        cursoRepository.delete(curso);
     }
 }

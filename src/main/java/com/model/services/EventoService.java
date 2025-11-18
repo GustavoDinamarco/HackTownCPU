@@ -24,6 +24,9 @@ public class EventoService {
     }
 
     public Evento buscarPorId(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         return eventoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
     }
@@ -36,6 +39,9 @@ public class EventoService {
     }
 
     public Evento criar(Evento evento) {
+        if (evento == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Evento não pode ser nulo");
+        }
         return eventoRepository.save(evento);
     }
 
@@ -56,6 +62,10 @@ public class EventoService {
     }
 
     public void remover(Integer id) {
-        eventoRepository.delete(buscarPorId(id));
+        Evento evento = buscarPorId(id);
+        if (evento == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
+        }
+        eventoRepository.delete(evento);
     }
 }

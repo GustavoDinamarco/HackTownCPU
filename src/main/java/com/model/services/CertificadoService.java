@@ -53,6 +53,16 @@ public class CertificadoService {
     }
 
     public Certificado emitir(Integer alunoId, Integer eventoId, Integer palestranteId, Certificado certificadoPayload) {
+        if (alunoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do aluno não pode ser nulo");
+        }
+        if (eventoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do evento não pode ser nulo");
+        }
+        if (palestranteId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do palestrante não pode ser nulo");
+        }
+        
         Aluno aluno = alunoRepository.findById(alunoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
         Evento evento = eventoRepository.findById(eventoId)
@@ -71,6 +81,9 @@ public class CertificadoService {
     }
 
     public void remover(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         certificadoRepository.deleteById(id);
     }
 
@@ -152,6 +165,13 @@ public class CertificadoService {
             Integer palestranteId, 
             String nomeInstituicao, 
             String identidadeInstituicao) {
+        
+        if (eventoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do evento não pode ser nulo");
+        }
+        if (palestranteId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do palestrante não pode ser nulo");
+        }
         
         Evento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));

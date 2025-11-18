@@ -24,6 +24,9 @@ public class AlunoService {
     }
 
     public Aluno buscarPorId(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
     }
@@ -48,6 +51,10 @@ public class AlunoService {
     }
 
     public void remover(Integer id) {
-        alunoRepository.delete(buscarPorId(id));
+        Aluno aluno = buscarPorId(id);
+        if (aluno == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado");
+        }
+        alunoRepository.delete(aluno);
     }
 }

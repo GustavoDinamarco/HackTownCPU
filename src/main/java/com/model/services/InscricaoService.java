@@ -33,6 +33,12 @@ public class InscricaoService {
     }
 
     public Inscricao registrar(Integer eventoId, Integer alunoId) {
+        if (eventoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do evento não pode ser nulo");
+        }
+        if (alunoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do aluno não pode ser nulo");
+        }
         Evento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
         Aluno aluno = alunoRepository.findById(alunoId)
@@ -59,6 +65,9 @@ public class InscricaoService {
     }
 
     public Inscricao atualizarPresenca(Integer inscricaoId, Boolean presente) {
+        if (inscricaoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da inscrição não pode ser nulo");
+        }
         Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inscrição não encontrada"));
         inscricao.setPresenca(presente);
@@ -66,6 +75,9 @@ public class InscricaoService {
     }
 
     public void remover(Integer inscricaoId) {
+        if (inscricaoId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da inscrição não pode ser nulo");
+        }
         inscricaoRepository.deleteById(inscricaoId);
     }
 }
