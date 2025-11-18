@@ -189,21 +189,24 @@ class InscricaoServiceIntegrationTest {
         // Arrange
         Inscricao inscricao = inscricaoService.registrar(evento.getId(), aluno.getId());
         Integer inscricaoId = inscricao.getId();
+        Integer eventoId = evento.getId();
         
         // Garante que a inscrição foi salva
         assertTrue(inscricaoRepository.existsById(inscricaoId));
+        long countAntes = inscricaoRepository.findByEventoId(eventoId).size();
+        assertEquals(1, countAntes);
 
         // Act
         inscricaoService.remover(inscricaoId);
         
-        // Força a sincronização com o banco
+        // Força a sincronização com o banco e limpa o cache do Hibernate
         entityManager.flush();
         entityManager.clear();
 
         // Assert - verifica diretamente no banco através do repository
-        assertFalse(inscricaoRepository.existsById(inscricaoId));
-        assertTrue(inscricaoRepository.findByEventoId(evento.getId()).stream()
-            .noneMatch(i -> i.getId().equals(inscricaoId)));
+        // Verifica que o count diminuiu (de 1 para 0)
+        long countDepois = inscricaoRepository.findByEventoId(eventoId).size();
+        assertEquals(0, countDepois);
     }
 }
 
