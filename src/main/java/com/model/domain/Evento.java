@@ -1,12 +1,22 @@
-package com.model;
+package com.model.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,19 +26,38 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "eventos")
 public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String nome;
+
+    @ManyToMany
+    @JoinTable(name = "evento_curso",
+            joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursos = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "evento_palestrante",
+            joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "palestrante_id"))
     private List<Palestrante> palestrantes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inscricao> inscricoes = new ArrayList<>();
+
     private String local;
     private LocalDateTime horaInicio;
     private LocalDateTime horaFim;
     private String descricao;
+
+    @ElementCollection
+    @CollectionTable(name = "evento_categorias", joinColumns = @JoinColumn(name = "evento_id"))
+    @Column(name = "categoria")
     private List<String> categorias = new ArrayList<>();
     private Integer cargaHoraria;
     private Integer vagas;
