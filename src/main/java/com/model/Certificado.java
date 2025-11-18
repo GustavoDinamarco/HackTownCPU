@@ -1,7 +1,39 @@
 package com.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Certificado {
-    private String nomeCompleto;
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer id;
+
+    private Aluno aluno;
     private Evento evento;
     private Palestrante palestrante;
+    private String hashCertificado;
+    private String nomeInstituicao;
+    private String identidadeInstituicao;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Certificado{");
+        sb.append("nomeCompleto=").append(aluno.getNome());
+        sb.append(", evento=").append(evento.getNome());
+        sb.append(", palestrante=").append(palestrante.getNome());
+        sb.append(", instituicao=").append(nomeInstituicao);
+        sb.append('}');
+        return sb.toString();
+    }
 }

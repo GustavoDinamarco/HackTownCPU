@@ -23,7 +23,6 @@ public class Pessoa {
     private String cpf;
     private String contato;
     private String email;
-    // private Curso curso;
     private Date dataNascimento;
 
 }

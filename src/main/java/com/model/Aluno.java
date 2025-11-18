@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Aluno extends Pessoa{
 
     private List<Curso> cursos;
-    private List<Evento> eventos = new ArrayList<>();
+    private List<Certificado> certificados = new ArrayList<>();
     private String periodo;
-
+    private List<Inscricao> inscricoes = new ArrayList<>();
 }

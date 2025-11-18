@@ -15,5 +15,6 @@ import lombok.Setter;
 public class Palestrante extends Pessoa{
 
     private String descricao;
+    private String fotoUrl;
     List<Evento> eventos = new ArrayList<>();
 }
