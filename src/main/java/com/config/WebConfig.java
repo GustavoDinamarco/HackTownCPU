@@ -2,6 +2,7 @@ package com.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -12,7 +13,7 @@ public class WebConfig {
     public WebMvcConfigurer corsConfigurer(){
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry){
+            public void addCorsMappings(@NonNull CorsRegistry registry){
                 registry.addMapping("/**") // Aplica CORS para todos os endpoints
                         .allowedOrigins("http://localhost:5000") // Permite apenas esta origem
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Permite esses métodos

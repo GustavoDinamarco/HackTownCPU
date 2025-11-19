@@ -31,7 +31,7 @@ import lombok.Setter;
 public class Evento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
 
@@ -51,7 +51,11 @@ public class Evento {
     private List<Inscricao> inscricoes = new ArrayList<>();
 
     private String local;
+    
+    @Column(name = "hora_inicio")
     private LocalDateTime horaInicio;
+    
+    @Column(name = "hora_fim")
     private LocalDateTime horaFim;
     private String descricao;
 
@@ -59,8 +63,12 @@ public class Evento {
     @CollectionTable(name = "evento_categorias", joinColumns = @JoinColumn(name = "evento_id"))
     @Column(name = "categoria")
     private List<String> categorias = new ArrayList<>();
+    
+    @Column(name = "carga_horaria")
     private Integer cargaHoraria;
     private Integer vagas;
+    
+    @Column(name = "banner_url")
     private String bannerUrl;
 
     public boolean isAbertoATodos() {

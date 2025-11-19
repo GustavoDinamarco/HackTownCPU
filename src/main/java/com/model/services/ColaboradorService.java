@@ -22,11 +22,17 @@ public class ColaboradorService {
     }
 
     public Colaborador buscarPorId(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         return colaboradorRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Colaborador não encontrado"));
     }
 
     public Colaborador criar(Colaborador colaborador) {
+        if (colaborador == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Colaborador não pode ser nulo");
+        }
         return colaboradorRepository.save(colaborador);
     }
 
@@ -41,6 +47,10 @@ public class ColaboradorService {
     }
 
     public void remover(Integer id) {
-        colaboradorRepository.delete(buscarPorId(id));
+        Colaborador colaborador = buscarPorId(id);
+        if (colaborador == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Colaborador não encontrado");
+        }
+        colaboradorRepository.delete(colaborador);
     }
 }

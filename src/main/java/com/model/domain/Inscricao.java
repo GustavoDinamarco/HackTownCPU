@@ -2,6 +2,7 @@ package com.model.domain;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,7 @@ import lombok.Setter;
 public class Inscricao {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     @ManyToOne
@@ -34,6 +35,7 @@ public class Inscricao {
     @JoinColumn(name = "evento_id", nullable = false)
     private Evento evento;
 
+    @Column(name = "data_inscricao")
     private Date dataInscricao;
     private Boolean presenca; // true = presente, false = ausente, null = não confirmado
     

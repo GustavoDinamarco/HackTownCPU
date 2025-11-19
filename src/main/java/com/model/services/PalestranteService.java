@@ -22,6 +22,9 @@ public class PalestranteService {
     }
 
     public Palestrante buscarPorId(Integer id) {
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID não pode ser nulo");
+        }
         return palestranteRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Palestrante não encontrado"));
     }
@@ -44,6 +47,10 @@ public class PalestranteService {
     }
 
     public void remover(Integer id) {
-        palestranteRepository.delete(buscarPorId(id));
+        Palestrante palestrante = buscarPorId(id);
+        if (palestrante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Palestrante não encontrado");
+        }
+        palestranteRepository.delete(palestrante);
     }
 }
